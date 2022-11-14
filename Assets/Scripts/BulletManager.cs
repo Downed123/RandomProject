@@ -27,4 +27,15 @@ public class BulletManager : MonoBehaviour
         yield return new WaitForSeconds(_renderTime);
         Destroy(gameObject);
     }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.tag == "Enemy")
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+            GameObject ps = GameObject.Find("Particle System");
+            ps.transform.position = other.transform.position;
+            ps.GetComponent<ParticleSystem>().Play();
+        }
+    }
 }
