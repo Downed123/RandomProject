@@ -5,11 +5,16 @@ using UnityEngine;
 public class EnemyStateManager : Billboard
 {
     [SerializeField] private float _speed;
+    [SerializeField] private float _cooldown;
 
     private EnemyStateFactory _factory;
     private EnemyBaseState _currentState;
 
+    private bool _shoot = false;
+
     public EnemyBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
+
+    public bool Shoot { get { return _shoot; } }
 
     private void Awake()
     {

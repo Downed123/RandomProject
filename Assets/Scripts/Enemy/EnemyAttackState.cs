@@ -8,7 +8,7 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void EnterState()
     {
-
+        Debug.Log("ATTACK");
     }
 
     public override void UpdateState()

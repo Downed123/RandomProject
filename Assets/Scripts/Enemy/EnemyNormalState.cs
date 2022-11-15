@@ -13,13 +13,18 @@ public class EnemyNormalState : EnemyBaseState
 
     public override void UpdateState()
     {
-        Debug.Log("update");
-        _ctx.transform.position = Vector3.MoveTowards(_ctx.transform.position, new Vector3(0, -4, 0), 5f * Time.deltaTime);
+
+
+        CheckSwitchStates();
     }
 
     public override void CheckSwitchStates()
     {
-
+        Debug.Log(_ctx.Shoot);
+        if(_ctx.Shoot)
+        {
+            SwitchState(_factory.Attack());
+        }
     }
 
     public override void AnimateState()
