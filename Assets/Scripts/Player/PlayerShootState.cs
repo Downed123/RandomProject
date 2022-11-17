@@ -19,7 +19,8 @@ public class PlayerShootState : PlayerBaseState
 
             bullet.transform.position = _ctx.transform.position;
 
-            bullet.GetComponent<BulletManager>().Shoot();
+            bullet.GetComponent<BulletManager>().Target = "Enemy";
+            bullet.GetComponent<BulletManager>().Shoot(Vector3.up);
         }
     }
 

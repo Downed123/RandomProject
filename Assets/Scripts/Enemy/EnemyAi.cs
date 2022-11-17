@@ -4,10 +4,40 @@ using UnityEngine;
 
 public class EnemyAi : MonoBehaviour
 {
-    private GameObject _obj;
+    private Transform _current;
 
-    public EnemyAi(GameObject obj)
+    private string _movementType;
+    private string _attackType;
+
+    public EnemyAi(Transform current, string movementType, string attackType)
     {
-        _obj = obj;
+        _current = current;
+        _movementType = movementType;
+        _attackType = attackType;
+    }
+
+    public IEnumerator Movement(Vector3 target, float maxDistanceDelta)
+    {
+        while(_current.position != target)
+        {
+            _current.position = Vector3.MoveTowards(_current.position, target, maxDistanceDelta);
+            yield return null;
+        }
+
+        _current.GetComponent<EnemyController>().StartCoroutine(Movement(new Vector3(-target.x, target.y, target.z), maxDistanceDelta));
+    }
+
+    public IEnumerator Shoot(GameObject bullet) {
+        while(true)
+        {
+            GameObject newBullet = Instantiate(bullet);
+
+            newBullet.transform.position = _current.position;
+
+            newBullet.GetComponent<BulletManager>().Target = "Player";
+            newBullet.GetComponent<BulletManager>().Shoot(Vector3.down);
+
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 }

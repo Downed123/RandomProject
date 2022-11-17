@@ -7,17 +7,21 @@ public class BulletManager : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _renderTime;
 
-    public void Shoot()
+    private string _target;
+
+    public string Target { get { return _target; } set { _target = value; } }
+
+    public void Shoot(Vector3 direction)
     {
-        StartCoroutine(ShootBullet());
+        StartCoroutine(ShootBullet(direction));
         StartCoroutine(DestroyBullet());
     }
 
-    private IEnumerator ShootBullet()
+    private IEnumerator ShootBullet(Vector3 direction)
     {
         while(true)
         {
-            transform.Translate(Vector2.up * Time.deltaTime * _speed);
+            transform.Translate(direction * Time.deltaTime * _speed);
             yield return null;
         }
     }
@@ -29,7 +33,7 @@ public class BulletManager : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.tag == "Enemy")
+        if(other.gameObject.tag == _target)
         {
             Destroy(other.gameObject);
             Destroy(gameObject);

@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject _bullet;
     [SerializeField] private MovementType _movementType;
     [SerializeField] private AttackType _attackType;
+    [SerializeField] private float _speed;
 
     private EnemyAi _enemyAi;
 
@@ -22,36 +23,29 @@ public class EnemyController : MonoBehaviour
 
     private void Awake()
     {
-        _enemyAi = new EnemyAi(gameObject);
+        string movement = "";
+        string attack = "";
+
+       switch(_movementType)
+       {
+        case MovementType.Horizontal:
+            movement = "Horizontal";
+            break;
+       }
+
+        switch(_attackType)
+       {
+        case AttackType.Shoot:
+            attack = "Shoot";
+            break;
+       }
+
+        _enemyAi = new EnemyAi(transform, movement, attack);
     }
 
     public void StartAi()
     {
-        StartCoroutine(Movement(transform, transform.position + new Vector3(5f, 0f, 0f), Time.deltaTime * 5f));
-        StartCoroutine(Shoot());
-    }
-
-    private IEnumerator Movement(Transform current, Vector3 target, float maxDistanceDelta)
-    {
-        while(current.position != target)
-        {
-            current.position = Vector3.MoveTowards(current.position, target, maxDistanceDelta);
-            yield return null;
-        }
-
-        StartCoroutine(Movement(current, new Vector3(-target.x, target.y, target.z), maxDistanceDelta));
-    }
-
-    private IEnumerator Shoot() {
-        while(true)
-        {
-            GameObject bullet = Instantiate(_bullet);
-
-            bullet.transform.position = transform.position;
-
-            bullet.GetComponent<BulletManager>().Shoot();
-
-            yield return new WaitForSeconds(0.5f);
-        }
+        StartCoroutine(_enemyAi.Movement(transform.position + new Vector3(5f, 0f, 0f), Time.deltaTime * _speed));
+        StartCoroutine(_enemyAi.Shoot(_bullet));
     }
 }
