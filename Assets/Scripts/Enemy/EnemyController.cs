@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private GameObject _bullet;
+    [SerializeField] private int _bulletID;
     [SerializeField] private MovementType _movementType;
     [SerializeField] private AttackType _attackType;
     [SerializeField] private float _speed;
@@ -46,6 +46,6 @@ public class EnemyController : MonoBehaviour
     public void StartAi()
     {
         StartCoroutine(_enemyAi.Movement(transform.position + new Vector3(5f, 0f, 0f), Time.deltaTime * _speed));
-        StartCoroutine(_enemyAi.Shoot(_bullet));
+        StartCoroutine(_enemyAi.Shoot(_bulletID));
     }
 }

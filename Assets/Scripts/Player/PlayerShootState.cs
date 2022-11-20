@@ -14,10 +14,8 @@ public class PlayerShootState : PlayerBaseState
         {
             _ctx.StartCoroutine(_ctx.Debounce());
             _ctx.Animator.Play("spaceshipShoot");
-
-            GameObject bullet = Instantiate(_ctx.Bullet);
-
-            bullet.transform.position = _ctx.transform.position;
+            
+            GameObject bullet = ObjectPool.Instance.Activate(_ctx.BulletID, _ctx.transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
 
             bullet.GetComponent<BulletManager>().Target = "Enemy";
             bullet.GetComponent<BulletManager>().Shoot(Vector3.up);

@@ -29,14 +29,14 @@ public class BulletManager : MonoBehaviour
     private IEnumerator DestroyBullet()
     {
         yield return new WaitForSeconds(_renderTime);
-        Destroy(gameObject);
+        ObjectPool.Instance.Deactivate(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag == _target)
         {
             Destroy(other.gameObject);
-            Destroy(gameObject);
+            ObjectPool.Instance.Deactivate(gameObject);
             GameObject ps = GameObject.Find("Particle System");
             ps.transform.position = other.transform.position;
             ps.GetComponent<ParticleSystem>().Play();

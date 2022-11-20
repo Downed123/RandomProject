@@ -8,7 +8,7 @@ public class PlayerStateManager : Billboard
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _cooldown;
-    [SerializeField] private GameObject _bullet;
+    [SerializeField] private int _bulletID;
 
     private PlayerInput _playerInput;
     private InputAction _movement;
@@ -23,7 +23,7 @@ public class PlayerStateManager : Billboard
 
     public float MoveSpeed { get { return _speed; } }
     public float Cooldown { get { return _cooldown; } }
-    public GameObject Bullet { get { return _bullet; } }
+    public int BulletID { get { return _bulletID; } }
 
     public Vector2 MoveVector { get { return _movement.ReadValue<Vector2>(); } }
     public bool Shoot { get { return _shoot.triggered; } }

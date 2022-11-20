@@ -27,12 +27,10 @@ public class EnemyAi : MonoBehaviour
         _current.GetComponent<EnemyController>().StartCoroutine(Movement(new Vector3(-target.x, target.y, target.z), maxDistanceDelta));
     }
 
-    public IEnumerator Shoot(GameObject bullet) {
+    public IEnumerator Shoot(int bulletID) {
         while(true)
         {
-            GameObject newBullet = Instantiate(bullet);
-
-            newBullet.transform.position = _current.position;
+            GameObject newBullet = ObjectPool.Instance.Activate(bulletID, _current.position, Quaternion.Euler(new Vector3(0, 0, 0)));
 
             newBullet.GetComponent<BulletManager>().Target = "Player";
             newBullet.GetComponent<BulletManager>().Shoot(Vector3.down);
