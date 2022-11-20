@@ -40,6 +40,7 @@ public class BulletManager : MonoBehaviour
             GameObject ps = GameObject.Find("Particle System");
             ps.transform.position = other.transform.position;
             ps.GetComponent<ParticleSystem>().Play();
+            _target = "";
         }
     }
 }
