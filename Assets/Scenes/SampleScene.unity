@@ -5161,11 +5161,11 @@ MonoBehaviour:
   _player: {fileID: 389088511}
   _enemyStageStats:
   - obj: {fileID: 1606280915437305634, guid: a3b2aef114522564bb26e6fd9e0e2912, type: 3}
-    quantity: 0
+    quantity: 2
     startPosition: {x: 0, y: 2, z: 0}
     spawnTime: 2
     spawnsOnce: 1
-    delayTime: 0
+    delayTime: 5
 --- !u!4 &1684785487
 Transform:
   m_ObjectHideFlags: 0

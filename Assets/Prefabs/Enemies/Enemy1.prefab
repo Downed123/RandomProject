@@ -47,10 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 643c8904771cb6942adccbfb97478310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullet: {fileID: 7226395265937402702, guid: 60eb621f21e5c8d42aac9677273c97c4, type: 3}
-  _movementType: 0
-  _attackType: 0
-  _speed: 2
+  _bulletID: 0
+  _movement: 1
+  _attack: 0
+  _speed: 1
+  _attackSpeed: 1
 --- !u!212 &1606280915437305636
 SpriteRenderer:
   m_ObjectHideFlags: 0

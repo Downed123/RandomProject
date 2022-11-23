@@ -5,47 +5,51 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private int _bulletID;
-    [SerializeField] private MovementType _movementType;
-    [SerializeField] private AttackType _attackType;
+    [SerializeField] private MovementType _movement;
+    [SerializeField] private AttackType _attack;
     [SerializeField] private float _speed;
+    [SerializeField] private float _attackSpeed;
 
-    private EnemyAi _enemyAi;
+    private MovementHandler _movementHandler;
+    private AttackHandler _attackHandler;
 
     enum MovementType
     {
+        Idle,
         Horizontal
     }
 
     enum AttackType
     {
-        Shoot
+        Shoot,
+        Target
     }
 
     private void Awake()
     {
-        string movement = "";
-        string attack = "";
-
-       switch(_movementType)
-       {
-        case MovementType.Horizontal:
-            movement = "Horizontal";
-            break;
+       switch(_movement) {
+            case MovementType.Horizontal:
+                _movementHandler = new Horizontal(transform);
+                break;
        }
 
-        switch(_attackType)
-       {
-        case AttackType.Shoot:
-            attack = "Shoot";
-            break;
+       switch(_attack) {
+            case AttackType.Shoot:
+                _attackHandler = new Shoot(transform);
+                break;
+            case AttackType.Target:
+                _attackHandler = new Target(transform);
+                break;
        }
-
-        _enemyAi = new EnemyAi(transform, movement, attack);
     }
 
-    public void StartAi()
+    public void StartAi(float range)
     {
-        StartCoroutine(_enemyAi.Movement(transform.position + new Vector3(5f, 0f, 0f), Time.deltaTime * _speed));
-        StartCoroutine(_enemyAi.Shoot(_bulletID));
+        if(_movement != MovementType.Idle)
+        {
+            StartCoroutine(_movementHandler.Move(new Vector3(range, 0f, 0f), _speed));
+        }
+
+        StartCoroutine(_attackHandler.Attack(_bulletID, _attackSpeed));
     }
 }
