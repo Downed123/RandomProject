@@ -5162,8 +5162,30 @@ MonoBehaviour:
   _enemyStageStats:
   - obj: {fileID: 1606280915437305634, guid: a3b2aef114522564bb26e6fd9e0e2912, type: 3}
     quantity: 2
-    startPosition: {x: 0, y: 2, z: 0}
+    center: {x: 0, y: 0, z: 0}
+    range: 2
     spawnTime: 2
+    spawnsOnce: 1
+    delayTime: 5
+  - obj: {fileID: 4068943793662906410, guid: 2237e496741973d40b79fa2f6368b113, type: 3}
+    quantity: 1
+    center: {x: -7, y: 3, z: 0}
+    range: 1
+    spawnTime: 5
+    spawnsOnce: 1
+    delayTime: 5
+  - obj: {fileID: 4068943793662906410, guid: 2237e496741973d40b79fa2f6368b113, type: 3}
+    quantity: 3
+    center: {x: 0, y: 3, z: 0}
+    range: 1
+    spawnTime: 7
+    spawnsOnce: 1
+    delayTime: 5
+  - obj: {fileID: 5198510874568704189, guid: fc07d532c47bfed4d91cdb70baf74a44, type: 3}
+    quantity: 1
+    center: {x: 3, y: 3, z: 0}
+    range: 2
+    spawnTime: 9
     spawnsOnce: 1
     delayTime: 5
 --- !u!4 &1684785487
@@ -5174,7 +5196,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684785485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.18737, y: 2.2119555, z: 0.006071985}
+  m_LocalPosition: {x: 0, y: 3, z: 0.006071985}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

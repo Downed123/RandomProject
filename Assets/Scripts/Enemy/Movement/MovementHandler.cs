@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Globals;
 
 public abstract class MovementHandler
 {
@@ -11,5 +12,5 @@ public abstract class MovementHandler
         _current = current;
     }
 
-    public abstract IEnumerator Move(Vector3 range, float speed);
+    public abstract IEnumerator Move(EnemyStats enemyStats, float speed);
 }

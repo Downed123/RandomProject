@@ -2,24 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Globals;
 
 public class StageManager : MonoBehaviour
 {   
 
     [SerializeField] private Transform _player;
     [SerializeField] private List<EnemyStats> _enemyStageStats;
-
-    [Serializable]
-    public struct EnemyStats
-    {
-        public GameObject obj;
-        public int quantity;
-        public Vector3 center;
-        public float range;
-        public float spawnTime;
-        public bool spawnsOnce;
-        public float delayTime;
-    }
 
     private void Start()
     {
@@ -47,9 +36,9 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    private IEnumerator MoveTowards(Transform current, EnemyStats enemyStats, float count, float maxDistanceDelta)
+    private IEnumerator MoveTowards(Transform current, EnemyStats enemyStats, int count, float maxDistanceDelta)
     {
-        Vector3 target = enemyStats.center + new Vector3(count * 2, 0, 0);
+        Vector3 target = this.GetInitialPosition(enemyStats, count);
 
         while(current.position != target)
         {
@@ -57,6 +46,28 @@ public class StageManager : MonoBehaviour
             yield return null;
         }
         
-        current.GetComponent<EnemyController>().StartAi(enemyStats.range);
+        current.GetComponent<EnemyController>().StartAi(enemyStats);
+    }
+
+    private Vector3 GetInitialPosition(EnemyStats enemyStats, int count)
+    {
+        Vector3 pos = Vector3.zero;
+
+        if(enemyStats.alignmentMode == AlignmentMode.Horizontal)
+        {
+            pos = enemyStats.center + new Vector3(count * 2, 0, 0);
+        } else if(enemyStats.alignmentMode == AlignmentMode.Circular)
+        {
+            float radians = 2 * Mathf.PI / enemyStats.quantity * count;
+
+            float vertical = Mathf.Sin(radians);
+            float horizontal = Mathf.Cos(radians);
+
+            Vector3 spawnDir = new Vector3(horizontal, vertical, 0);
+
+            pos = enemyStats.center + spawnDir * enemyStats.range;
+        }
+
+        return pos;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Globals;
 
 public class EnemyController : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class EnemyController : MonoBehaviour
     enum MovementType
     {
         Idle,
-        Horizontal
+        Horizontal,
+        Rotation
     }
 
     enum AttackType
@@ -31,6 +33,9 @@ public class EnemyController : MonoBehaviour
             case MovementType.Horizontal:
                 _movementHandler = new Horizontal(transform);
                 break;
+            case MovementType.Rotation:
+                _movementHandler = new Rotation(transform);
+                break;
        }
 
        switch(_attack) {
@@ -43,11 +48,11 @@ public class EnemyController : MonoBehaviour
        }
     }
 
-    public void StartAi(float range)
+    public void StartAi(EnemyStats enemyStats)
     {
         if(_movement != MovementType.Idle)
         {
-            StartCoroutine(_movementHandler.Move(new Vector3(range, 0f, 0f), _speed));
+            StartCoroutine(_movementHandler.Move(enemyStats, _speed));
         }
 
         StartCoroutine(_attackHandler.Attack(_bulletID, _attackSpeed));
