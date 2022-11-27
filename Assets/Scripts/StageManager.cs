@@ -12,13 +12,13 @@ public class StageManager : MonoBehaviour
 
     private void Start()
     {
-        StartStage();
+        this.StartStage();
     }
 
     public void StartStage()
     {
         foreach(EnemyStats enemyStats in _enemyStageStats) {
-            StartCoroutine(RunEnemyThread(enemyStats));
+            StartCoroutine(this.RunEnemyThread(enemyStats));
         }
     }
 
@@ -27,38 +27,43 @@ public class StageManager : MonoBehaviour
         yield return new WaitForSeconds(enemyStats.spawnTime);
 
         for(int i = 0; i < enemyStats.quantity; i++) {
-            GameObject enemy = Instantiate(enemyStats.obj);
-            enemy.transform.position = _player.position + new Vector3(0f, 10f, 0f);
-
-            float step = Time.deltaTime * 20f;
-
-            StartCoroutine(MoveTowards(enemy.transform, enemyStats, i, step));
+            StartCoroutine(this.RunInstances(enemyStats, i));
         }
     }
 
-    private IEnumerator MoveTowards(Transform current, EnemyStats enemyStats, int count, float maxDistanceDelta)
+    private IEnumerator RunInstances(EnemyStats enemyStats, int num)
     {
-        Vector3 target = this.GetInitialPosition(enemyStats, count);
+        GameObject enemy = Instantiate(enemyStats.obj);
+        enemy.transform.position = _player.position + new Vector3(0f, 10f, 0f);
 
-        while(current.position != target)
+        float step = Time.deltaTime * 20f;
+
+        Vector3 target = this.GetInitialPosition(enemyStats, num);
+
+        while(enemy.transform.position != target)
         {
-            current.position = Vector3.MoveTowards(current.position, target, maxDistanceDelta);
+            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, target, step);
             yield return null;
         }
-        
-        current.GetComponent<EnemyController>().StartAi(enemyStats);
+            
+        enemy.transform.GetComponent<EnemyController>().StartAi(enemyStats);
     }
 
-    private Vector3 GetInitialPosition(EnemyStats enemyStats, int count)
+    private Vector3 GetInitialPosition(EnemyStats enemyStats, int num)
     {
         Vector3 pos = Vector3.zero;
 
         if(enemyStats.alignmentMode == AlignmentMode.Horizontal)
         {
-            pos = enemyStats.center + new Vector3(count * 2, 0, 0);
+            float left = enemyStats.center.x - (enemyStats.range / 2);
+
+            float spaceBetween = enemyStats.range / (enemyStats.quantity - 1);
+            
+            pos = new Vector3(left + num * spaceBetween, enemyStats.center.y, enemyStats.center.z);
+
         } else if(enemyStats.alignmentMode == AlignmentMode.Circular)
         {
-            float radians = 2 * Mathf.PI / enemyStats.quantity * count;
+            float radians = 2 * Mathf.PI / enemyStats.quantity * num;
 
             float vertical = Mathf.Sin(radians);
             float horizontal = Mathf.Cos(radians);
